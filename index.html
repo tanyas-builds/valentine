@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffebee;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        #container {
+            max-width: 90%;
+        }
+
+        h1 {
+            color: #d32f2f;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .gif-container img {
+            max-width: 250px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        #yesBtn {
+            background-color: #4caf50;
+            color: white;
+            z-index: 999;
+        }
+
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .success-message {
+            display: none;
+        }
+
+        .success-message h1 {
+            font-size: 4rem;
+            color: #e91e63;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="askSection">
+            <div class="gif-container">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm96bm96bm96bm96bm96bm96bm96bm96bm96bm96JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJbxUyvAAt9L2hw/giphy.gif" alt="Cute Cat GIF">
+            </div>
+            <h1 id="question">Will you be my Valentine?</h1>
+            <div class="buttons">
+                <button id="yesBtn" onclick="celebrate()">YES OFCOURSE</button>
+                <button id="noBtn" onclick="makeYesBigger()">NO</button>
+            </div>
+        </div>
+
+        <div id="successSection" class="success-message">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm96bm96bm96bm96bm96bm96bm96bm96bm96bm96JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MDJ9IbM3vuzB2/giphy.gif" alt="Happy Cat">
+            <h1>YAAAY! ❤️</h1>
+            <p>I knew you'd say yes!</p>
+        </div>
+    </div>
+
+    <script>
+        let scale = 1;
+        const messages = [
+            "Are you sure?",
+            "Think again!",
+            "Really sure?",
+            "Last chance!",
+            "Surely not?",
+            "You're breaking my heart ;(",
+            "I'm gonna cry...",
+            "Just click yes!",
+            "Look how big the green button is!",
+            "No is not an option."
+        ];
+        let messageIndex = 0;
+
+        function makeYesBigger() {
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            const question = document.getElementById('question');
+            
+            // Increase the scale of the Yes button
+            scale += 0.5;
+            yesBtn.style.transform = `scale(${scale})`;
+            
+            // Change the No button text to be funny
+            noBtn.innerText = messages[messageIndex];
+            messageIndex = (messageIndex + 1) % messages.length;
+
+            // If the button gets too big, it starts covering the screen
+            if (scale > 10) {
+                noBtn.style.display = 'none';
+                question.innerText = "JUST PRESS YES!";
+            }
+        }
+
+        function celebrate() {
+            document.getElementById('askSection').style.display = 'none';
+            document.getElementById('successSection').style.display = 'block';
+            document.body.style.backgroundColor = '#fce4ec';
+        }
+    </script>
+</body>
+</html>
