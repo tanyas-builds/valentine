@@ -29,16 +29,24 @@
             overflow: hidden;
         }
 
-        #container { text-align: center; padding: 20px; z-index: 10; }
+        #container { 
+            text-align: center; 
+            padding: 20px; 
+            z-index: 10; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
         .image-box {
-            width: 280px;
-            height: 200px;
+            /* 1.6 times the original 280x200 size */
+            width: 448px; 
+            height: 320px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 100px; /* Fallback Heart Size */
+            font-size: 150px; /* Adjusted fallback emoji size */
             border-radius: 20px;
             overflow: hidden;
         }
@@ -46,12 +54,12 @@
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Changed to contain so the GIF isn't cropped */
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        h1 { color: var(--primary-pink); font-size: 2.2rem; }
+        h1 { color: var(--primary-pink); font-size: 2.5rem; margin-top: 10px; }
 
         .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 30px; }
 
