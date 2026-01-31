@@ -39,14 +39,13 @@
         }
 
         .image-box {
-            /* 1.6 times the original 280x200 size */
+            /* 1.6 times bigger: 448px width x 320px height */
             width: 448px; 
             height: 320px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 150px; /* Adjusted fallback emoji size */
             border-radius: 20px;
             overflow: hidden;
         }
@@ -54,12 +53,12 @@
         img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Changed to contain so the GIF isn't cropped */
+            object-fit: contain; /* Keeps the GIF centered without cropping */
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        h1 { color: var(--primary-pink); font-size: 2.5rem; margin-top: 10px; }
+        h1 { color: var(--primary-pink); font-size: 2.5rem; margin-top: 15px; }
 
         .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 30px; }
 
@@ -84,8 +83,7 @@
     <div id="container">
         <div id="askSection">
             <div class="image-box">
-                <img src="./valentine.gif" alt="❤️" onerror="this.style.display='none'">
-                <span>❤️</span>
+                <img src="./valentine.gif" alt="Valentine GIF">
             </div>
             <h1 id="question">Will you be my Valentine?</h1>
             <div class="buttons">
@@ -96,8 +94,7 @@
 
         <div id="successSection">
             <div class="image-box">
-                <img src="./success.gif" alt="💖" onerror="this.style.display='none'">
-                <span>💖</span>
+                <img src="./success.gif" alt="Success GIF">
             </div>
             <h1 style="font-size: 3.5rem;">YAAAY! ❤️</h1>
             <p style="font-size: 1.5rem; color: #ff4d6d;">I'll see you on the 14th!</p>
@@ -133,7 +130,6 @@
                 confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
-            console.log("%cSystem Alert: 'No' function has been overridden.", "color: #ff4d6d; font-size: 20px;");
         }
     </script>
 </body>
