@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <title>A Special Message for You ❤️</title>
+    <title>A Special Message ❤️</title>
     <meta property="og:title" content="Wait, I have a question...">
     <meta property="og:description" content="Open this to see what's up!">
-    <meta property="og:image" content="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm96bm96bm96bm96bm96bm96bm96bm96bm96bm96JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJbxUyvAAt9L2hw/giphy.gif">
+    <meta property="og:image" content="https://[USERNAME].github.io/[REPO]/valentine.gif">
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
             --primary-pink: #ff4d6d;
-            --soft-pink: #ffccd5;
             --bg-color: #fff0f3;
         }
 
@@ -26,29 +25,21 @@
             min-height: 100vh;
             margin: 0;
             background-color: var(--bg-color);
-            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            font-family: 'Comic Sans MS', cursive;
             overflow: hidden;
             transition: background-color 0.5s ease;
         }
 
-        #container {
-            text-align: center;
-            z-index: 10;
-            padding: 20px;
-        }
+        #container { text-align: center; z-index: 10; padding: 20px; }
 
         .gif-container img {
-            max-width: 250px;
+            max-width: 280px;
             border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
-        h1 {
-            color: var(--primary-pink);
-            font-size: 2.2rem;
-            text-shadow: 2px 2px white;
-        }
+        h1 { color: var(--primary-pink); font-size: 2.2rem; }
 
         .buttons {
             display: flex;
@@ -65,30 +56,15 @@
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn {
-            background-color: #43a047;
-            color: white;
-            position: relative;
-        }
+        #yesBtn { background-color: #43a047; color: white; z-index: 1000; }
+        #noBtn { background-color: var(--primary-pink); color: white; }
 
-        #noBtn {
-            background-color: var(--primary-pink);
-            color: white;
-        }
+        #successSection { display: none; animation: fadeIn 0.8s ease-out; }
 
-        #successSection {
-            display: none;
-            animation: fadeIn 1s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -96,7 +72,7 @@
     <div id="container">
         <div id="askSection">
             <div class="gif-container">
-                <img id="mainGif" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm96bm96bm96bm96bm96bm96bm96bm96bm96bm96JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJbxUyvAAt9L2hw/giphy.gif" alt="Asking GIF">
+                <img src="./valentine.gif" alt="Be My Valentine?">
             </div>
             <h1 id="question">Will you be my Valentine?</h1>
             <div class="buttons">
@@ -107,7 +83,7 @@
 
         <div id="successSection">
             <div class="gif-container">
-                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXp6bm96bm96bm96bm96bm96bm96bm96bm96bm96bm96JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MDJ9IbM3vuzB2/giphy.gif" alt="Happy GIF">
+                <img src="./success.gif" alt="Success!">
             </div>
             <h1 style="font-size: 3.5rem;">YAAAY! ❤️</h1>
             <p style="font-size: 1.5rem; color: #ff4d6d;">I'll see you on the 14th!</p>
@@ -119,7 +95,7 @@
         const noMessages = [
             "Are you sure?", "Really sure??", "Think about it!", "Pwease? 🥺", 
             "I'll be very sad...", "I'm gonna cry!", "You're breaking my heart!", 
-            "Just click the green one!", "NO IS DISABLED", "FATAL ERROR: Click Yes"
+            "Look how big YES is!", "NO IS BROKEN", "FATAL ERROR: Click Yes"
         ];
         let messageIndex = 0;
 
@@ -127,22 +103,15 @@
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
             
-            // 1. Grow the Yes Button
-            scale += 0.6;
+            scale += 0.8;
             yesBtn.style.transform = `scale(${scale})`;
             
-            // 2. Shift the No Button message
             noBtn.innerText = noMessages[messageIndex];
             messageIndex = (messageIndex + 1) % noMessages.length;
 
-            // 3. Move the No Button slightly so it's harder to click (optional prank)
-            const x = Math.random() * 20 - 10;
-            const y = Math.random() * 20 - 10;
-            noBtn.style.transform = `translate(${x}px, ${y}px)`;
-
-            // 4. If Yes is huge, hide No
-            if (scale > 12) {
+            if (scale > 15) {
                 noBtn.style.display = 'none';
+                document.getElementById('question').innerText = "JUST PRESS YES! ❤️";
             }
         }
 
@@ -151,23 +120,29 @@
             document.getElementById('successSection').style.display = 'block';
             document.body.style.backgroundColor = '#ffc1cc';
 
-            // Confetti Blast!
-            var duration = 5 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+            const duration = 10 * 1000;
+            const end = Date.now() + duration;
 
-            function randomInRange(min, max) {
-                return Math.random() * (max - min) + min;
-            }
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff4d6d', '#ffffff', '#ffccd5']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff4d6d', '#ffffff', '#ffccd5']
+                });
 
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-
-                var particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
-            }, 250);
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
 
             console.log("%cSystem Alert: 'No' function has been overridden by the Love Protocol.", "color: #ff4d6d; font-size: 20px; font-weight: bold;");
         }
