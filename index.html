@@ -27,27 +27,33 @@
             background-color: var(--bg-color);
             font-family: 'Comic Sans MS', cursive;
             overflow: hidden;
-            transition: background-color 0.5s ease;
         }
 
-        #container { text-align: center; z-index: 10; padding: 20px; }
+        #container { text-align: center; padding: 20px; z-index: 10; }
 
-        .gif-container img {
-            max-width: 280px;
+        .image-box {
+            width: 280px;
+            height: 200px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px; /* Fallback Heart Size */
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
         }
 
         h1 { color: var(--primary-pink); font-size: 2.2rem; }
 
-        .buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-        }
+        .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 30px; }
 
         button {
             padding: 15px 30px;
@@ -59,20 +65,19 @@
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn { background-color: #43a047; color: white; z-index: 1000; }
+        #yesBtn { background-color: #43a047; color: white; position: relative; }
         #noBtn { background-color: var(--primary-pink); color: white; }
 
-        #successSection { display: none; animation: fadeIn 0.8s ease-out; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        #successSection { display: none; }
     </style>
 </head>
 <body>
 
     <div id="container">
         <div id="askSection">
-            <div class="gif-container">
-                <img src="./valentine.gif" alt="Be My Valentine?">
+            <div class="image-box">
+                <img src="./valentine.gif" alt="❤️" onerror="this.style.display='none'">
+                <span>❤️</span>
             </div>
             <h1 id="question">Will you be my Valentine?</h1>
             <div class="buttons">
@@ -82,8 +87,9 @@
         </div>
 
         <div id="successSection">
-            <div class="gif-container">
-                <img src="./success.gif" alt="Success!">
+            <div class="image-box">
+                <img src="./success.gif" alt="💖" onerror="this.style.display='none'">
+                <span>💖</span>
             </div>
             <h1 style="font-size: 3.5rem;">YAAAY! ❤️</h1>
             <p style="font-size: 1.5rem; color: #ff4d6d;">I'll see you on the 14th!</p>
@@ -92,23 +98,16 @@
 
     <script>
         let scale = 1;
-        const noMessages = [
-            "Are you sure?", "Really sure??", "Think about it!", "Pwease? 🥺", 
-            "I'll be very sad...", "I'm gonna cry!", "You're breaking my heart!", 
-            "Look how big YES is!", "NO IS BROKEN", "FATAL ERROR: Click Yes"
-        ];
+        const noMessages = ["Are you sure?", "Really sure??", "Think about it!", "Pwease? 🥺", "I'll be very sad...", "I'm gonna cry!", "NO IS BROKEN", "Click the green one!"];
         let messageIndex = 0;
 
         function handleNo() {
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
-            
             scale += 0.8;
             yesBtn.style.transform = `scale(${scale})`;
-            
             noBtn.innerText = noMessages[messageIndex];
             messageIndex = (messageIndex + 1) % noMessages.length;
-
             if (scale > 15) {
                 noBtn.style.display = 'none';
                 document.getElementById('question').innerText = "JUST PRESS YES! ❤️";
@@ -120,31 +119,13 @@
             document.getElementById('successSection').style.display = 'block';
             document.body.style.backgroundColor = '#ffc1cc';
 
-            const duration = 10 * 1000;
-            const end = Date.now() + duration;
-
+            const end = Date.now() + (10 * 1000);
             (function frame() {
-                confetti({
-                    particleCount: 3,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#ff4d6d', '#ffffff', '#ffccd5']
-                });
-                confetti({
-                    particleCount: 3,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#ff4d6d', '#ffffff', '#ffccd5']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
-
-            console.log("%cSystem Alert: 'No' function has been overridden by the Love Protocol.", "color: #ff4d6d; font-size: 20px; font-weight: bold;");
+            console.log("%cSystem Alert: 'No' function has been overridden.", "color: #ff4d6d; font-size: 20px;");
         }
     </script>
 </body>
