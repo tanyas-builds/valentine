@@ -3,17 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>A Special Message ❤️</title>
     
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
         :root {
-            /* Brighter, punchier pinks */
-            --bg-color: #ff85a1; 
-            --text-color: #800f2f;
-            --btn-no: #ff4d6d;
-            --btn-yes: #2d6a4f;
+            --primary-pink: #ff4d6d;
+            --bg-color: #ffb3c1; 
         }
 
         body {
@@ -25,54 +23,66 @@
             margin: 0;
             background-color: var(--bg-color);
             font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
             transition: background-color 0.5s ease;
         }
 
         #container { 
             text-align: center; 
             padding: 20px; 
-            max-width: 500px;
+            z-index: 10; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
 
         .image-box {
-            width: 100%;
-            max-width: 448px;
-            height: 320px;
+            width: 448px; 
+            max-width: 90%;
+            min-height: 320px;
             margin: 0 auto 20px;
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
         img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Changed to cover for a better look */
+            object-fit: contain; 
         }
 
-        h1 { color: var(--text-color); font-size: 2.2rem; margin: 15px 0; }
+        h1 { color: #c9184a; font-size: 2.5rem; margin-top: 15px; text-shadow: 2px 2px white; }
 
-        .buttons { display: flex; gap: 20px; justify-content: center; margin-top: 20px; }
+        .buttons { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 30px;
+            min-height: 100px;
+        }
 
         button {
             padding: 15px 30px;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            color: white;
-            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn { background-color: var(--btn-yes); }
-        #noBtn { background-color: var(--btn-no); }
+        #yesBtn { background-color: #43a047; color: white; position: relative; z-index: 100; }
+        #noBtn { background-color: var(--primary-pink); color: white; }
 
-        #successSection { display: none; }
+        #successSection { display: none; width: 100%; }
     </style>
 </head>
 <body>
@@ -80,50 +90,52 @@
     <div id="container">
         <div id="askSection">
             <div class="image-box">
-                <img src="valentine.gif" alt="Waiting..." onerror="this.src='https://media.tenor.com/HycmZ_R5ka8AAAAC/some-mascots-bounce-fail.gif'">
+                <img src="valentine.gif" alt="Valentine GIF">
             </div>
             <h1 id="question">Will you be my Valentine?</h1>
             <div class="buttons">
-                <button id="yesBtn" onclick="celebrate()">YES!</button>
+                <button id="yesBtn" onclick="celebrate()">YES OF COURSE</button>
                 <button id="noBtn" onclick="handleNo()">NO</button>
             </div>
         </div>
 
         <div id="successSection">
             <div class="image-box">
-                <img src="https://media.tenor.com/jay-renshaw-chit-success-you-did-it-congratulations-gif-18093781729549550194/full.gif" alt="SUCCESS!">
+                <img src="yaay.jpeg" alt="YAY!">
             </div>
-            <h1 style="font-size: 3rem;">YAAAY! ❤️</h1>
-            <p style="font-size: 1.5rem; color: #800f2f;">I'll see you on the 14th!</p>
+            <h1 style="font-size: 3.5rem;">YAAAY! ❤️</h1>
+            <p style="font-size: 1.5rem; color: #c9184a; font-weight: bold;">I'll see you on the 14th!</p>
         </div>
     </div>
 
     <script>
         let scale = 1;
-        const noMessages = ["Really?", "Pwease?", "I'll cry...", "Think again!", "Last chance!"];
-        let msgIdx = 0;
+        const noMessages = ["Are you sure?", "Really sure??", "Think about it!", "Pwease? 🥺", "I'll be very sad...", "I'm gonna cry!", "NO IS BROKEN", "Click the green one!"];
+        let messageIndex = 0;
 
         function handleNo() {
-            const yes = document.getElementById('yesBtn');
-            const no = document.getElementById('noBtn');
-            scale += 0.5;
-            yes.style.transform = `scale(${scale})`;
-            no.innerText = noMessages[msgIdx];
-            msgIdx = (msgIdx + 1) % noMessages.length;
-            if (scale > 8) no.style.display = 'none';
+            const yesBtn = document.getElementById('yesBtn');
+            const noBtn = document.getElementById('noBtn');
+            scale += 0.6;
+            yesBtn.style.transform = `scale(${scale})`;
+            noBtn.innerText = noMessages[messageIndex];
+            messageIndex = (messageIndex + 1) % noMessages.length;
+            if (scale > 12) {
+                noBtn.style.display = 'none';
+                document.getElementById('question').innerText = "JUST PRESS YES! ❤️";
+            }
         }
 
         function celebrate() {
             document.getElementById('askSection').style.display = 'none';
             document.getElementById('successSection').style.display = 'block';
-            document.body.style.backgroundColor = '#ff4d6d'; // Extra bright pink!
+            // Brighter pink for the win
+            document.body.style.backgroundColor = '#ff85a1';
 
-            const duration = 5 * 1000;
-            const end = Date.now() + duration;
-
+            const end = Date.now() + (10 * 1000);
             (function frame() {
-                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ffffff', '#ff4d6d'] });
-                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffffff', '#ff4d6d'] });
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
         }
