@@ -7,8 +7,7 @@
     <title>A Special Message ❤️</title>
     <meta property="og:title" content="Wait, I have a question...">
     <meta property="og:description" content="Open this to see what's up!">
-    <meta property="og:image" content="https://[USERNAME].github.io/[REPO]/valentine.gif">
-
+    
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
@@ -25,8 +24,9 @@
             min-height: 100vh;
             margin: 0;
             background-color: var(--bg-color);
-            font-family: 'Comic Sans MS', cursive;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             overflow: hidden;
+            transition: background-color 0.5s ease;
         }
 
         #container { 
@@ -39,7 +39,6 @@
         }
 
         .image-box {
-            /* 1.6 times bigger: 448px width x 320px height */
             width: 448px; 
             height: 320px;
             margin: 0 auto 20px;
@@ -53,14 +52,22 @@
         img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Keeps the GIF centered without cropping */
+            object-fit: contain; 
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            background-color: white; /* Helps if GIF is transparent */
         }
 
         h1 { color: var(--primary-pink); font-size: 2.5rem; margin-top: 15px; }
 
-        .buttons { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 30px; }
+        .buttons { 
+            display: flex; 
+            gap: 20px; 
+            justify-content: center; 
+            align-items: center; 
+            margin-top: 30px;
+            min-height: 100px; /* Prevents jumping when Yes grows */
+        }
 
         button {
             padding: 15px 30px;
@@ -72,7 +79,7 @@
             transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        #yesBtn { background-color: #43a047; color: white; position: relative; }
+        #yesBtn { background-color: #43a047; color: white; position: relative; z-index: 100; }
         #noBtn { background-color: var(--primary-pink); color: white; }
 
         #successSection { display: none; }
@@ -83,7 +90,7 @@
     <div id="container">
         <div id="askSection">
             <div class="image-box">
-                <img src="./valentine.gif" alt="Valentine GIF">
+                <img src="valentine.gif" alt="Valentine GIF">
             </div>
             <h1 id="question">Will you be my Valentine?</h1>
             <div class="buttons">
@@ -94,7 +101,7 @@
 
         <div id="successSection">
             <div class="image-box">
-                <img src="./success.gif" alt="Success GIF">
+                <img src="success.gif" alt="Success GIF">
             </div>
             <h1 style="font-size: 3.5rem;">YAAAY! ❤️</h1>
             <p style="font-size: 1.5rem; color: #ff4d6d;">I'll see you on the 14th!</p>
@@ -103,17 +110,32 @@
 
     <script>
         let scale = 1;
-        const noMessages = ["Are you sure?", "Really sure??", "Think about it!", "Pwease? 🥺", "I'll be very sad...", "I'm gonna cry!", "NO IS BROKEN", "Click the green one!"];
+        const noMessages = [
+            "Are you sure?", 
+            "Really sure??", 
+            "Think about it!", 
+            "Pwease? 🥺", 
+            "I'll be very sad...", 
+            "I'm gonna cry!", 
+            "NO IS BROKEN", 
+            "Click the green one!"
+        ];
         let messageIndex = 0;
 
         function handleNo() {
             const yesBtn = document.getElementById('yesBtn');
             const noBtn = document.getElementById('noBtn');
-            scale += 0.8;
+            
+            // Increase the size of the Yes button
+            scale += 0.5;
             yesBtn.style.transform = `scale(${scale})`;
+            
+            // Change the text of the No button
             noBtn.innerText = noMessages[messageIndex];
             messageIndex = (messageIndex + 1) % noMessages.length;
-            if (scale > 15) {
+            
+            // If Yes button gets too big, hide the No button
+            if (scale > 10) {
                 noBtn.style.display = 'none';
                 document.getElementById('question').innerText = "JUST PRESS YES! ❤️";
             }
@@ -124,11 +146,27 @@
             document.getElementById('successSection').style.display = 'block';
             document.body.style.backgroundColor = '#ffc1cc';
 
+            // Confetti effect
             const end = Date.now() + (10 * 1000);
             (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#ff4d6d', '#ffffff']
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#ff4d6d', '#ffffff']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
             }());
         }
     </script>
